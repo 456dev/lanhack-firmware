@@ -11,7 +11,7 @@ import requests
 import secrets
 
 ssid = 'DEMONET'
-
+        
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 print("starting connect")
@@ -33,7 +33,7 @@ while True:
         if stat == reader.OK:
             card = int.from_bytes(bytes(uid),"little",False)
             if detected != card:
-                #requests.get(f"http://{secrets.backend_ip}")
+                requests.post(f"http://{secrets.backend_ip}:8000/api/ingest/push-uid", json={"uid": str(card)})
                 print(f"Card changed!: old={detected} new={card}")
                 detected = card
             continue
